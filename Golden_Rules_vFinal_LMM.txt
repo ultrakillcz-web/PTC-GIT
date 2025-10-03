@@ -1,0 +1,110 @@
+
+
+GOLDEN RULES – vFinal (consolidado)
+
+Objetivo
+Regras mestras para gerar Procedimentos de Comissionamento a partir de um JSON estruturado (Json_Procedimento_Valido_R2), garantindo padronização, legibilidade e rastreabilidade, sem alterar a estrutura do JSON.
+
+Escopo
+• Válido para qualquer EQUIPAMENTO (variável {EQUIPAMENTO}).
+• Funciona em três modos: {MODO} ∈ {simplificado_real,simplificado_test, completo}.
+• Usa variáveis: {EQUIPAMENTO}, {N} (nº de funções do item 4), {X} (nº de testes do item 6).
+
+Princípios Imutáveis
+1) A ESTRUTURA DO JSON NÃO PODE SER ALTERADA pela IA (capítulos, subcapítulos, IDs e ordem).
+2) TODO título e subtítulo devem ter um parágrafo de DESCRIÇÃO logo abaixo (sem a palavra “Descrição:” escrita no documento).
+3) Sempre que um título, subtítulo ou descrição introduzir uma lista, tabela, imagem ou passos, a descrição termina com “:”. Ex.1: “Passos para execução do teste:”. Ex.2: “Descrição do título, como segue:”.
+4) Diferença entre 3.2 e 6.x.2 (Termos):
+   • Item 3.2 = TABELA com termos globais do documento (Sigla | Significado | Descrição). Conteúdo amplo e corporativo/disciplinar.
+   • Item 6.x.2 = LINHA CORRIDA por termo no formato “Termo em itálico e negrito: Definição.” (sem bullets). Ex.: “*Tensão*: Diferença…;” “*Corrente*: Movimento….” Finalize cada definição com “;” e a última com “.”. Se existir apenas uma definição, esta termina com ".".
+5) Tabelas obrigatórias:
+   • 2.1 Procedimentos de Comissionamento (Descrição | Nº Documento).
+   • 2.2 Desenhos e Documentos de Engenharia (Descrição | Nº Desenho/Documento sem o número da revisão, sendo considerada revisão todo conteúdo que aparece após o último hífen da sequência numérica do código quando não for composto apenas por dígitos, devendo ser eliminado; a descrição, iniciada após o espaço delimitador “- ”, deve ser mantida integralmente). Ex.: (Nº Desenho) 26-21-21-DDE-EF-0103-009 / (Documento) E-HOUSE 21UBA81 - PROJETO ELETROMECÂNICO PAINEL 21BRA81
+   • 2.3 Códigos e Normas (Descrição | Código/Norma).
+   • 3.1 Segurança e Qualidade (Sigla | Significado | Descrição).
+   • 3.2 Termos Elétricos/Operacionais (Sigla | Significado | Descrição). (ver regra 4 para coerência com termos gerais, não confundir com 6.x.2)
+   • 3.3.1 Unidades (Sigla | Significado | Descrição).
+   • 1.3 (após o parágrafo do Escopo) – Tabela “Tags KKS” (Tag | Descrição). O conteúdo deve ser coerente com o {EQUIPAMENTO}; no modo simplificado pode trazer placeholders claros.
+6) Item 4 – Responsabilidades:
+   • Se {MODO}=simplificado e/ou documento genérico: usar nomes genéricos “<Função 1>”, “<Função 2>”, etc., com bullets das atribuições.
+   • Se direcionado para um {EQUIPAMENTO} específico: usar NOME REAL da função (ex.: “Coordenador de Comissionamento:”), seguido de descrição e bullets com atribuições. Nunca imprimir “Função 1/2…”. Respeitar {N}.
+   • A descrição do item 4 e de cada subitem 4.i deve terminar com “:” quando introduzir bullets.
+7) Item 6 – Testes (X testes):
+   • A IA gera 6.1…6.X seguindo o JSON. Cada teste contém, no mínimo:
+     6.x.1 Objetivo (com descrição);
+     6.x.2 Termos utilizados (formato linha corrida, ver regra 4 – sem bullets, com “;” e “.” finais);
+     6.x.3 Etapas preparatórias (descrição com “:” + bullets);
+     6.x.4 EPIs necessários (descrição com “:” + bullets);
+     6.x.5 Instrumentos e ferramentas (descrição com “:” + bullets);
+     6.x.6 Execução passo a passo (descrição com “:” + sequência numerada com hierarquia flexível 1., 1.1., 1.1.1., 2., 2.1… conforme necessário);
+     6.x.7 Critérios de aceitação (descrição com “:” + bullets – sem tabelas nesse item);
+     6.x.8 Registros, Anexos e As-Builts (descrição com “:”, depois três blocos, cada um com uma DESCRIÇÃO própria e bullets):
+        REGISTROS: <descrição curta do que registrar> + bullets
+        ANEXOS: <descrição do que anexar> + bullets
+        AS-BUILTS: <descrição de atualização> + bullets
+   • Nunca inserir checklists/tabelas nos itens 6.x.7 e 6.x.8.  Cada teste 6.X deve ter seu próprio checklist, gerado separadamente e anexado **somente após** os itens 7–12, na seção de anexos do documento principal.
+8) Modo de Geração (chave de controle):
+   • {MODO}=simplificado → conteúdo genérico e coerente; afirma no início do documento: “Este documento simplificado pode conter lacunas por usar dados públicos; verifique a bibliografia ao final.”
+   • {MODO}=completo → colher dados dos anexos fornecidos; ajustar textos e valores específicos (sem mudar a estrutura do JSON) e citar fontes em BIBLIOGRAFIA. Se faltar informação crítica, parar e solicitar ao usuário antes de prosseguir.
+9) KKS adaptativo por equipamento:
+   • A tabela de KKS (no 1.3/escopo) deve ser específica ao {EQUIPAMENTO} no modo completo (com base em anexos). No modo simplificado, pode listar placeholders claros (“TAG1 – Descrição genérica do componente A”).
+10) Consistência textual
+   • Todos TÍTULOS e SUBTÍTULOS terminam com “:”. (Ex.: “3. SIGLAS, TERMOS, ABREVIAÇÕES E DEFINIÇÕES:”)
+   • Toda DESCRIÇÃO que antecede lista, tabela, imagem ou passos termina com “:”. Caso seja parágrafo final (sem lista), termina com “.”
+   • Manter concordância e evitar misturar “genérico” com conteúdo de equipamento no mesmo documento. Se o usuário escolher genérico, mantenha genérico do início ao fim; se escolher específico, mantenha específico em todo o documento.
+11) Bibliografia (item final)
+   • Incluir “BIBLIOGRAFIA:” ao final para o modo completo, listando documentos do projeto / manuais / normas usados. No modo simplificado, listar as referências públicas consultadas (quando houver).
+12) Paradas por falta de dados
+   • Ao não encontrar dados essenciais (ex.: curvas, limites de ripple, tensões de flutuação, etc.), interromper a geração do item e solicitar os documentos ou confirmação do usuário, sem improvisar valores.
+
+13) Autoavaliação em ciclos
+   • O agente deve aplicar o mini‑validador e a EvaluationRubric em cada etapa (geração dos itens 1–6, cada teste 6.x, itens 7–12 e cada checklist), revisando e aprimorando o documento até atingir a nota mínima de 9.5 antes de avançar.
+
+14) Estrutura JSON mínima e extensível
+   • A estrutura do JSON é a referência mínima e imutável, servindo para diversos tipos de documentos; é permitido acrescentar novos subitens, imagens, ilustrações ou campos particulares, desde que a estrutura principal (ordem e numeração) seja preservada e todas as regras anteriores sejam respeitadas.
+
+15) Aplicação constante das regras
+   • Todas as regras desta seção aplicam‑se a todo o documento (introdução, testes, checklists e anexos), devendo ser observadas em todas as etapas de geração e revisão.
+
+## Regras complementares herdadas do r1
+
+16) Formatação de valores numéricos
+    • Tensões: sempre com unidade (ex.: 380 V ca, 432 V cc)
+    • Correntes: com unidade e contexto (ex.: 50 A nominal)
+    • Percentuais: símbolo junto (ex.: 125%, THD<5%)
+    • Temperaturas: com °C (ex.: 25 °C ± 5 °C)
+
+17) Referências cruzadas
+    • Usar formato: “(ver item X.Y)” ou “(conforme Anexo‑XX)”
+    • Nunca referenciar item inexistente
+    • Manter consistência de numeração
+
+18) Placeholders controlados
+    • No modo completo: proibido usar placeholders
+    • No modo simplificado real: usar “<preencher>”
+    • No modo simplificado teste: usar “XXX” com nota de treino
+
+19) Fluxo de decisão documentado
+    Se faltar dado crítico:
+      └─ Modo completo → parar e solicitar os dados ao usuário
+      └─ Modo simplificado real → marcar “<preencher>”
+      └─ Modo simplificado teste → usar placeholder e incluir aviso sobre falta de dados
+
+Validador (checagens mínimas)
+• Títulos e subtítulos com “:”.
+• Todas as seções (1 a 11) presentes quando aplicáveis à versão.
+• Descrição presente logo abaixo de cada título/subtítulo.
+• Tabelas obrigatórias presentes exatamente onde definido (2.1, 2.2, 2.3, 3.1, 3.2, 3.3.1 e KKS após 1.3).
+• 3.2 ≠ 6.x.2 (formatação correta).
+• 6.x.6 com numeração hierárquica, quando necessário.
+• 6.x.7 e 6.x.8 sem tabelas/checklists; 6.x.8 com 3 blocos (REGISTROS/ANEXOS/AS-BUILTS) cada um com descrição e bullets.
+• Item 4 com nomes genéricos OU nomes reais coerentes ao modo; {N} respeitado.
+• {X} testes gerados e numerados.
+• “Bibliografia” presente no final no modo completo.
+• Mensagem de aviso no início se {MODO}=simplificado.
+
+Boas práticas de estilo
+• Uso consistente de maiúsculas nos títulos.
+• Negrito apenas nos títulos e legendas formais; nos itens 6.x.2, usar *itálico+negrito* para o termo.
+• Bullets “•” para listas; numeração “1., 1.1., …” nos passos do 6.x.6.
+• Evitar frases telegráficas; objetividade com clareza.

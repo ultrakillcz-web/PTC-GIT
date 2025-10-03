@@ -1,0 +1,225 @@
+
+
+MINI_VALIDADOR – vFinal (consolidado)
+(Usar como checklist automatizável para validar documentos gerados a partir do Json_Procedimento_Valido_R2)
+
+Objetivo
+Assegurar que a saída (Markdown/Word/PDF) respeita a estrutura travada e as Regras de Ouro. Pode ser executado como checklist manual
+ou convertido em script (regex/linters). Abaixo há critérios, mensagens de erro e sugestões de correção.
+
+Entrada
+• Documento final (texto) gerado a partir do Json_Procedimento_Valido_R2.
+• Parâmetros: {EQUIPAMENTO}, {MODO} ∈ {simplificado, completo}, {N}, {X}.
+
+Saída
+• Relatório com: OK/ERRO por regra, total de erros, lista detalhada de ocorrências com localização (quando disponível), e recomendações.
+• Não aplicar correções automaticamente (modo auditoria). Correções automáticas só quando explicitamente solicitado.
+
+------------------------------------------------------------
+A. ESTRUTURA E SEÇÕES
+------------------------------------------------------------
+A1) Seções 1..12 presentes e em ordem
+Regra: documento contém os itens 1,2,…,12 (quando {MODO}=simplificado, item 12 pode existir com bibliografia genérica).
+Erro: “Falta a seção {i} na estrutura 1..12” ou “Seções fora de ordem”.
+Correção: Gerar/ordenar seções conforme JSON travado.
+
+A2) Títulos e subtítulos terminam com “:”
+Regra: Todo título/subtítulo visível deve terminar com “:”.
+Checagem (regex simples): ^\s*\d+(\.\d+)*\s+.+:\s*$  (para numerados) e ^\s*\*\*(.+):\*\*\s*$ (para negrito sem numeração)
+Erro: “Título/subtítulo sem ‘:’ → {linha}”.
+Correção: Acrescentar “:” ao final do título correspondente.
+
+A3) Descrição imediatamente abaixo de todo título/subtítulo
+Regra: Após cada título/subtítulo, a primeira linha deve ser um parágrafo descritivo (sem a palavra “Descrição:” literal).
+Erro: “Falta descrição abaixo de {secao}”.
+Correção: Inserir parágrafo explicativo. Se houver lista/tabela/imagem em seguida, a descrição deve terminar com “:”.
+
+------------------------------------------------------------
+B. TABELAS OBRIGATÓRIAS
+------------------------------------------------------------
+B1) 1.3 – Tabela KKS após a descrição do Escopo
+Regra: Após “1.3 ESCOPO:”, deve haver a “Tabela — KKS que fazem parte do escopo.” (colunas: Tag KKS | Descrição).
+Erro: “Falta a tabela KKS (1.3) ou está com cabeçalho inválido”.
+Correção: Inserir a tabela com os cabeçalhos corretos.
+
+B2) 2.1 – Tabela de Procedimentos
+Regra: Tabela com “Descrição | Nº Documento” após a descrição.
+Erro: “Falta tabela obrigatória em 2.1”.
+Correção: Inserir tabela com cabeçalhos corretos.
+
+B3) 2.2 – Tabela de Desenhos/Documentos de Engenharia
+Regra: Tabela com “Descrição | Nº Desenho/Documento” após a descrição.
+Erro: “Falta tabela obrigatória em 2.2”.
+Correção: Inserir tabela com cabeçalhos corretos.
+
+B4) 2.3 – Tabela de Códigos e Normas
+Regra: Tabela com “Descrição | Código/Nº da Norma”.
+Erro: “Falta tabela obrigatória em 2.3”.
+Correção: Inserir tabela com cabeçalhos corretos.
+
+B5) 3.1 – Tabela de Siglas (Segurança/Qualidade)
+Regra: Tabela com “Sigla | Significado | Descrição”.
+Erro: “Falta tabela obrigatória em 3.1”.
+Correção: Inserir tabela com cabeçalhos corretos.
+
+B6) 3.2 – Tabela de Termos (gerais do documento)
+Regra: Tabela com “Termo | Definição” (ou “Sigla | Significado | Descrição” conforme políticas internas). Não confundir com 6.x.2.
+Erro: “Falta tabela obrigatória em 3.2” ou “3.2 contém termos formatados no padrão 6.x.2”.
+Correção: Voltar para tabela de termos gerais no 3.2.
+
+B7) 3.3.1 – Tabela de Unidades (SI)
+Regra: Tabela com “Símbolo | Unidade | Descrição”.
+Erro: “Falta tabela obrigatória em 3.3.1”.
+Correção: Inserir tabela com cabeçalhos corretos.
+
+------------------------------------------------------------
+C. TESTES (Item 6) – CONSISTÊNCIA
+------------------------------------------------------------
+C1) Quantidade de testes 6.1 … 6.X
+Regra: Deve haver exatamente X blocos de teste numerados.
+Erro: “Quantidade de testes divergente: esperado {X}, encontrado {qtd}”.
+Correção: Ajustar número de blocos 6.x conforme X.
+
+C2) Presença dos subitens 6.x.1 … 6.x.8
+Regra: Cada teste deve conter exatamente 6.x.1 a 6.x.8.
+Erro: “Falta subitem {6.x.y} no teste {6.x}”.
+Correção: Completar com os subitens faltantes.
+
+C3) 6.x.2 (Termos do Teste) – formatação rígida
+Regra: Sem bullets; cada termo no formato _**Termo:** Definição;_ (último com ponto “.”). 1ª letra maiúscula, restante minúsculas.
+Erro: “6.x.2 com bullets” ou “6.x.2 sem itálico+negrito” ou “Pontuação incorreta (‘;’/‘.’)”.
+Correção: Reformatar termos conforme padrão.
+
+C4) 6.x.3/4/5/7 – descrição “:” + bullets
+Regra: A descrição desses subitens termina com “:”; depois vêm bullets.
+Erro: “6.x.y sem ‘:’ na descrição” ou “6.x.y sem bullets”.
+Correção: Ajustar.
+
+C5) 6.x.6 Execução Passo a Passo – hierarquia numérica
+Regra: Descrição com “:”; passos numerados com hierarquia numérica (1., 1.1., 1.1.1., 2., 2.1., …). Proibido bullets.
+Erro: “6.x.6 sem hierarquia numérica” ou “Uso de bullets no 6.x.6”.
+Correção: Renumerar em hierarquia numérica.
+
+C6) 6.x.8 REGISTROS, ANEXOS E AS-BUILTS – descrição de bloco e descrições internas
+Regra: (i) Após o título 6.x.8 deve existir descrição geral; (ii) Cada subtítulo interno (REGISTROS:, ANEXOS:, AS-BUILTS:) deve ter uma descrição própria antes dos bullets.
+Erro: “Falta descrição geral de 6.x.8” ou “Falta descrição em REGISTROS/ANEXOS/AS-BUILTS”.
+Correção: Inserir descrições conforme padrão.
+
+C7) Ausência de tabelas/checklists em 6.x.7 e 6.x.8
+Regra: Proibido inserir tabelas ou checklists nesses subitens (os formulários serão anexos externos).
+Erro: “Tabela/checklist encontrado em 6.x.7/6.x.8”.
+Correção: Remover e referenciar como anexo externo se necessário.
+
+------------------------------------------------------------
+D. RESPONSABILIDADES (Item 4)
+------------------------------------------------------------
+D1) Coerência com o MODO e {N}
+Regra: Se genérico, usar <Função i>; se específico, nomes reais (Coordenador de Comissionamento etc.). Respeitar N subitens.
+Erro: “Item 4 genérico/específico incoerente com {MODO}” ou “Quantidade de funções ≠ N”.
+Correção: Ajustar nomes e contagem.
+
+D2) Descrição antes dos bullets com “:”
+Regra: Cada subitem 4.i precisa de descrição terminando com “:” antes das atribuições em bullets.
+Erro: “Subitem 4.i sem descrição com ‘:’ antes dos bullets”.
+Correção: Inserir/ajustar descrição.
+
+------------------------------------------------------------
+E. CONSISTÊNCIA GLOBAL
+------------------------------------------------------------
+E1) Aviso de MODO simplificado
+Regra: Se {MODO}=simplificado, documento deve iniciar com aviso de que usa dados públicos e pode conter lacunas.
+Erro: “Aviso de simplificado ausente”.
+Correção: Inserir aviso no início.
+
+E2) Coerência global (genérico × específico)
+Regra: Não misturar conteúdo genérico com específico no mesmo documento.
+Erro: “Conteúdo genérico e específico misturados”.
+Correção: Padronizar todo o documento segundo {MODO}.
+
+E3) Títulos com “:” e descrições com “:” quando introduzem listas/tabelas
+Regra: Já coberta em A2 e A3; reforçar verificação global.
+Erro: “Ocorrências residuais sem ‘:’”.
+Correção: Ajustar.
+
+E4) Bibliografia ao final (Item 12)
+Regra: No modo completo, deve haver bibliografia com referências reais; no simplificado, fontes públicas quando usadas.
+Erro: “Bibliografia inexistente ou vazia”.
+Correção: Inserir seção conforme MODO.
+
+------------------------------------------------------------
+F. SAÍDA DO RELATÓRIO (modelo)
+------------------------------------------------------------
+Resumo:
+• Seções OK: {ok_sections}/{total}
+• Erros encontrados: {total_errors}
+• Avisos: {total_warnings}
+
+Detalhes por regra:
+[REGRA_ID] STATUS – Mensagem – Localização (linha/página/secção)
+
+Sugestões automáticas (quando aplicável):
+• “Adicionar ‘:’ ao final do título ‘{titulo}’.”
+• “Inserir descrição antes dos bullets em {secao}.”
+• “Converter bullets em hierarquia numérica no 6.x.6: 1., 1.1., 2., …”
+• “Separar termos: mover termos gerais para 3.2 (tabela) e manter 6.x.2 só com termos do teste.”
+• “Inserir descrições internas nos blocos REGISTROS/ANEXOS/AS-BUILTS.”
+
+Notas de Implementação (para script)
+• Detectar títulos numerados: ^\s*\d+(\.\d+)*\s+.+:\s*$
+• Detectar títulos em negrito: ^\s*\*\*.+:\*\*\s*$
+• Bloco 6.x.2: cada linha deve casar com: ^\s*_?\*\*[^:]+:\*\*_?\s+.+?(;|\.)$
+• Hierarquia do 6.x.6: linhas iniciando com ^\s*\d+(\.\d+)*\s+
+• Tabelas: procurar cabeçalhos esperados nas seções indicadas.
+• Descrição: linha não vazia imediatamente após o título; se a próxima linha for lista/tabela, a descrição anterior precisa terminar com “:”.
+
+G. TRAVAS AUTOMATIZADAS (JSON) — sugestões para inclusão no validador
+
+1) Formato estrito para 6.x.2 (termos por teste)
+- Regra (nome): formato_6_x_2_strict
+- Descrição: cada termo em 6.x.2 deve seguir exatamente o formato _**Termo:** Definição;_ e o último item terminar com ponto.
+- Regex sugerida (linha única): ^\s*_\*\*[^:]{1,200}\*\*:\s.+[;\.]$  
+- Implementação: para cada item em `termos_formatados` validar contra a regex; falha = não-conformidade com código C3.
+
+2) Hierarquia máxima em EXECUÇÃO PASSO A PASSO (6.x.6)
+- Regra (nome): hierarquia_6_x_6_depth
+- Descrição: limitar profundidade máxima a 3 níveis (1, 1.1, 1.1.1). Não permitir 1.1.1.1.
+- Checagem sugerida: parsear cada passo por tokens separados por espaços; extrair prefixo numérico e contar níveis pela contagem de pontos. Ex.: '1.1.1' → depth 3.
+- Implementação (pseudo):
+	for passo in passos:
+		prefix = regex_match('^(\\d+(?:\\.\\d+)*)', passo)
+		if prefix:
+			depth = prefix.count('.') + 1
+			if depth > 3: report_error('hierarquia excessiva', local=passo)
+
+3) Colunas fixas em tabelas obrigatórias
+- Regra (nome): tabelas_colunas_fixas
+- Descrição: tabelas como 1.3.tabela_kks e 3.2 devem ter colunas exatas definidas pelo schema.
+- Validação: comparar `tabela.colunas` com a lista esperada; se diferente, sinalizar e sugerir o cabeçalho correto.
+- Exemplo (1.3): expected = ["Tag KKS","Descrição"]
+
+Formato de saída sugerido para o validador (JSON):
+{
+	"melhorias_json": {
+		"novas_travas": [
+			{"regra": "formato_6_x_2_strict", "descricao": "Formato 6.x.2 rígido", "validacao": "regex: ^\\s*_\\*\\*[^:]{1,200}\\*\\*:\\s.+[;\\.]$"},
+			{"regra": "hierarquia_6_x_6_depth", "descricao": "Profundidade máxima 3", "validacao": "max_depth: 3"},
+			{"regra": "tabelas_colunas_fixas", "descricao": "Colunas fixas para tabelas obrigatórias", "validacao": "strict_columns: true"}
+		]
+	}
+}
+
+Observação: insira essas checagens no script do Mini-Validador (ou em um novo módulo `validators/json_rules.py`) para permitir execuções automatizadas. Para cada erro, retorne localização (linha/página/secção), mensagem curta e sugestão de correção.
+
+------------------------------------------------------------
+H. APLICAÇÃO ITERATIVA
+------------------------------------------------------------
+H1) Execução por etapas
+Regra: O mini‑validador e a EvaluationRubric devem ser executados iterativamente em cada fase da geração do documento:
+   • Após gerar os itens 1–6, antes de iniciar os testes 6.x.
+   • Após gerar cada teste 6.x, antes de incorporá‑lo e prosseguir para o próximo.
+   • Após completar os itens 7–12 com todos os testes incorporados.
+   • Após criar cada checklist individual.
+Erro: “Etapa {fase} sem validação” ou “Nota < 9.5 em {fase}”.
+Correção: Reexecutar o validador, ajustar o texto e aplicar a EvaluationRubric até que cada dimensão alcance a nota mínima de 9.5.
+
+Fim do Mini_Validador – vFinal

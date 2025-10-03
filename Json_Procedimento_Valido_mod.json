@@ -1,0 +1,408 @@
+{
+  "meta": {
+    "versao": "Json_Procedimento_Valido_R3",
+    "gerado_em": "2025-09-25T00:00:00Z",
+    "equipamento": "{EQUIPAMENTO}",
+    "modo": "{simplificado|completo}",
+    "variaveis": {
+      "N": "numero_de_funcoes",
+      "X": "numero_de_testes"
+    },
+    "observacoes": [
+      "A estrutura (ordem e chaves 1..12) é TRAVADA. Não inserir, remover ou renumerar chaves fora do padrão.",
+      "Item 4 replica 4.1..4.N conforme N.",
+      "Item 6 replica 6.1..6.X conforme X; cada 6.x possui 6.x.1..6.x.8.",
+      "6.x.6 é sempre 'EXECUÇÃO PASSO A PASSO'.",
+      "6.x.8 deve conter REGISTROS:, ANEXOS:, AS-BUILTS: (cada um com descrição própria + bullets)."
+    ],
+    "introducao_agent": "Você é um agente especialista em geração de Procedimentos de Testes de Comissionamento (PTC) para qualquer tipo de equipamento ou conjunto de equipamentos. Antes de gerar qualquer resultado, realiza pesquisa aprofundada em anexos (PDF, DOCX, TXT, MD, imagens) e fontes confiáveis (normas, manuais, memórias de cálculo, artigos, internet) para identificar testes obrigatórios, valores de referência, critérios de aceitação, KKS/TAGs e variáveis X e N.",
+  "processo": "Geração em fases: (1) gerar itens 1-6 e congelar; (2) gerar testes 6.1...6.X um a um com aprovação do usuário; cada teste é incorporado ao documento congelado; (3) gerar itens 7-12; (4) somente após os itens 7-12, anexar os checklists de cada teste, registros e demais anexos no final. Seguir a estrutura imutável do JSON.",
+    "checklist_format": {
+      "descricao": "Cada checklist de teste deve ter colunas fixas: Item (seguindo 6.X.Y), Tag (preenchida a partir do teste), Resultado (campo em branco), Status (OK/NOK/N.A. com caixas de seleção), Observações (campos em branco) e campos de assinatura (Nome, Cargo, Data).",
+      "visual": "Layouts agradáveis com espaços adequados e possibilidade de adicionar anexos relevantes."
+    },
+    "autoavaliacao": "Em cada fase (itens 1-6, cada teste 6.X, itens 1-12 e cada checklist), aplicar mini-validação e EvaluationRubric de 1 a 10. Repetir ajustes até atingir nota mínima de 9.5 em cada dimensão antes de prosseguir.",
+    "evaluationRubric": {
+      "1": "Ruim: falhas fundamentais; não atende ao básico.",
+      "2": "Abaixo do padrão: alguns acertos, mas com erros críticos.",
+      "3": "Incompleto: componentes importantes faltando; pouca profundidade.",
+      "4": "Básico: atende parcialmente; genérico e sem insight.",
+      "5": "Médio: adequado ao padrão, porém sem refinamento.",
+      "6": "Acima da média: bom esforço; faltam nuances para excelência.",
+      "7": "Proficiente: abrangente, poucos erros menores, além do básico.",
+      "7.5": "Altamente proficiente: compreensão profunda; oportunidades pontuais de avanço.",
+      "8": "Distinguido: consistente, com insights originais e poucas melhorias pendentes.",
+      "8.5": "Quase exemplar: quase impecável; rico em detalhes e inovação.",
+      "9": "Exemplar: referência de qualidade; original e preciso.",
+      "9.5": "Superior exemplar: maestria com nuances impecáveis.",
+      "10": "Extraordinário: excede o escopo com valor inesperado."
+    }
+  },
+  "golden_rules_flags": {
+    "titulos_com_doispontos": true,
+    "descricao_obrigatoria_apos_titulos": true,
+    "descricao_com_doispontos_quando_lista": true,
+    "diferenciar_3_2_vs_6_x_2": true,
+    "hierarquia_numerica_em_6_x_6": true,
+    "bibliografia_final_obrigatoria": true,
+    "kks_adaptativo_por_equipamento": true,
+    "documento_consistente_generico_ou_especifico": true
+  },
+  "variaveisX": [],
+  "variaveisN": [],
+  "listaVariaveisX": [],
+  "listaVariaveisN": [],
+  "QTD_X": 0,
+  "QTD_N": 0,
+  "mini_validador_result": {
+    "notas": {
+      "Resumo": null,
+      "Tabela": null,
+      "Variaveis": null,
+      "Estrutura": null,
+      "Formatação": null
+    },
+    "nota_geral": null,
+    "rubrica": null
+  },
+  "1": {
+    "titulo": "INTRODUÇÃO:",
+    "descricao": "Apresenta o objetivo geral, o escopo e as premissas do comissionamento do {EQUIPAMENTO}.",
+    "subitens": [
+      {
+        "id": "1.1",
+        "titulo": "OBJETIVO:",
+        "descricao": "Estabelece a finalidade deste procedimento, cobrindo verificações, ensaios, critérios de aceitação e registros."
+      },
+      {
+        "id": "1.2",
+        "titulo": "APLICAÇÃO:",
+        "descricao": "Define onde o procedimento se aplica no sistema e em quais condições operacionais."
+      },
+      {
+        "id": "1.3",
+        "titulo": "ESCOPO:",
+        "descricao": "Delimita os subsistemas, interfaces e limites de fornecimento abrangidos por este procedimento:",
+        "tabela_kks": {
+          "legenda": "Tabela — KKS que fazem parte do escopo.",
+          "colunas": [
+            "Tag KKS",
+            "Descrição"
+          ],
+          "linhas": [
+            [
+              "TAG1",
+              "Descrição genérica do componente A"
+            ],
+            [
+              "TAG2",
+              "Descrição genérica do componente B"
+            ]
+          ]
+        }
+      },
+      {
+        "id": "1.4",
+        "titulo": "DESCRIÇÃO GERAL DO PROJETO:",
+        "descricao": "Texto institucional imutável, padronizado corporativamente."
+      }
+    ]
+  },
+  "2": {
+    "titulo": "LISTA DE DESENHOS, DOCUMENTOS E PROCEDIMENTOS DE REFERÊNCIA:",
+    "descricao": "Relaciona os documentos de referência obrigatórios para execução e rastreabilidade:",
+    "subitens": [
+      {
+        "id": "2.1",
+        "titulo": "MANUAIS E PROCEDIMENTOS DE COMISSIONAMENTO:",
+        "descricao": "Listar os procedimentos corporativos e manuais de apoio:",
+        "tabela": {
+          "colunas": [
+            "Descrição",
+            "Nº Documento"
+          ],
+          "linhas": [
+            [
+              "Procedimento 1",
+              "N/A"
+            ]
+          ]
+        }
+      },
+      {
+        "id": "2.2",
+        "titulo": "DESENHOS E DOCUMENTOS DE ENGENHARIA:",
+        "descricao": "Listar desenhos, memoriais e folhas de dados aplicáveis:",
+        "tabela": {
+          "colunas": [
+            "Descrição",
+            "Nº Desenho/Documento"
+          ],
+          "linhas": [
+            [
+              "Desenho 1",
+              "N/A"
+            ]
+          ]
+        }
+      },
+      {
+        "id": "2.3",
+        "titulo": "CÓDIGOS E NORMAS:",
+        "descricao": "Citar normas aplicáveis em ordem de precedência:",
+        "tabela": {
+          "colunas": [
+            "Descrição",
+            "Código/Nº da Norma"
+          ],
+          "linhas": [
+            [
+              "Norma 1",
+              "N/A"
+            ]
+          ]
+        }
+      }
+    ]
+  },
+  "3": {
+    "titulo": "SIGLAS, TERMOS, ABREVIAÇÕES E DEFINIÇÕES:",
+    "descricao": "Padroniza siglas, termos e definições utilizados neste procedimento.",
+    "subitens": [
+      {
+        "id": "3.1",
+        "titulo": "SIGLAS EM SEGURANÇA DO TRABALHO E QUALIDADE:",
+        "descricao": "Apresenta siglas relevantes para segurança e qualidade:",
+        "tabela": {
+          "colunas": [
+            "Sigla",
+            "Significado",
+            "Descrição"
+          ],
+          "linhas": [
+            [
+              "EPI",
+              "Equipamento de Proteção Individual",
+              "Proteções obrigatórias ao trabalhador."
+            ]
+          ]
+        }
+      },
+      {
+        "id": "3.2",
+        "titulo": "TERMOS, SIGLAS E DEFINIÇÕES ELÉTRICAS E OPERACIONAIS:",
+        "descricao": "Lista termos gerais utilizados ao longo do documento:",
+        "tabela": {
+          "colunas": [
+            "Termo",
+            "Definição"
+          ],
+          "linhas": []
+        }
+      },
+      {
+        "id": "3.3",
+        "titulo": "GRANDEZAS E ABREVIATURAS ELÉTRICAS:",
+        "descricao": "Define o uso do SI e suas equivalências quando necessário.",
+        "subitens": [
+          {
+            "id": "3.3.1",
+            "titulo": "UNIDADES:",
+            "descricao": "Lista de grandezas elétricas com símbolos e unidades SI, incluindo equivalências:",
+            "tabela": {
+              "colunas": [
+                "Símbolo",
+                "Unidade",
+                "Descrição"
+              ],
+              "linhas": [
+                [
+                  "V",
+                  "Volt",
+                  "Unidade de tensão elétrica."
+                ],
+                [
+                  "A",
+                  "Ampere",
+                  "Unidade de corrente elétrica."
+                ]
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "4": {
+    "titulo": "RESPONSABILIDADES:",
+    "descricao": "Define as funções e responsabilidades de cada profissional envolvido.",
+    "funcoes_modelo": {
+      "descricao": "Quando {MODO}=simplificado genérico, usar nomes genéricos (<Função 1>, <Função 2>); quando específico por equipamento, usar nomes reais (ex.: Coordenador de Comissionamento). Respeitar N.",
+      "exemplo_generico": {
+        "id": "4.1",
+        "funcao": "<Função 1>",
+        "descricao": "Atribuições específicas a serem observadas:",
+        "bullets": [
+          "Atribuição A;",
+          "Atribuição B."
+        ]
+      },
+      "exemplo_especifico": {
+        "id": "4.1",
+        "funcao": "Coordenador de Comissionamento",
+        "descricao": "Atribuições específicas a serem observadas:",
+        "bullets": [
+          "Planejar e aprovar a estratégia de testes;",
+          "Validar critérios de aceitação e registros."
+        ]
+      }
+    },
+    "replicar_ate": "{N}"
+  },
+  "5": {
+    "titulo": "PRÉ-REQUISITOS PARA A REALIZAÇÃO DOS TESTES:",
+    "descricao": "Consolida as condições necessárias antes do início dos testes."
+  },
+  "6": {
+    "titulo": "REALIZAÇÃO DOS TESTES NO {EQUIPAMENTO}:",
+    "descricao": "Apresenta os testes a serem realizados no sistema, obedecendo às normas e critérios definidos.",
+    "modelo_teste": {
+      "id": "6.1",
+      "nome": "<Nome do Teste>",
+      "subitens": [
+        {
+          "id": "6.1.1",
+          "titulo": "OBJETIVO:",
+          "descricao": "Definir o objetivo do teste, alinhado às normas e ao projeto."
+        },
+        {
+          "id": "6.1.2",
+          "titulo": "TERMOS UTILIZADOS:",
+          "descricao": "Padroniza a terminologia aplicada neste teste:",
+          "termos_formatados": [
+            "_**Termo 1:** Definição;",
+            "_**Termo 2:** Definição."
+          ]
+        },
+        {
+          "id": "6.1.3",
+          "titulo": "ETAPAS PREPARATÓRIAS:",
+          "descricao": "Preparar o ambiente e o sistema para execução:",
+          "bullets": [
+            "Etapa 1;",
+            "Etapa 2."
+          ]
+        },
+        {
+          "id": "6.1.4",
+          "titulo": "EPIs NECESSÁRIOS:",
+          "descricao": "Definir EPIs mínimos obrigatórios:",
+          "bullets": [
+            "EPI 1;",
+            "EPI 2."
+          ]
+        },
+        {
+          "id": "6.1.5",
+          "titulo": "INSTRUMENTOS E FERRAMENTAS:",
+          "descricao": "Relacionar instrumentos e ferramentas requeridos:",
+          "bullets": [
+            "Instrumento 1;",
+            "Instrumento 2."
+          ]
+        },
+        {
+          "id": "6.1.6",
+          "titulo": "EXECUÇÃO PASSO A PASSO:",
+          "descricao": "Passos para execução do teste:",
+          "passos": [
+            "1. Passo principal;",
+            "1.1 Subpasso;",
+            "2. Próximo passo."
+          ]
+        },
+        {
+          "id": "6.1.7",
+          "titulo": "CRITÉRIOS DE ACEITAÇÃO:",
+          "descricao": "Definir critérios mínimos para aceitar o teste:",
+          "bullets": [
+            "Critério 1;",
+            "Critério 2."
+          ]
+        },
+        {
+          "id": "6.1.8",
+          "titulo": "REGISTROS, ANEXOS E AS-BUILTS:",
+          "descricao": "Relaciona registros obrigatórios, anexos e atualização de as-builts:",
+          "secoes": [
+            {
+              "subtitulo": "REGISTROS:",
+              "descricao": "Descrição de registros a serem mantidos:",
+              "itens": [
+                "Item 1;",
+                "Item 2."
+              ]
+            },
+            {
+              "subtitulo": "ANEXOS:",
+              "descricao": "Descrição de anexos a serem incluídos:",
+              "itens": [
+                "Item 1;",
+                "Item 2."
+              ]
+            },
+            {
+              "subtitulo": "AS-BUILTS:",
+              "descricao": "Descrição de atualizações e ajustes em as-builts:",
+              "itens": [
+                "Item 1;",
+                "Item 2."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "replicar_testes_ate": "{X}"
+  },
+  "7": {
+    "titulo": "AVISOS IMPORTANTES:",
+    "descricao": "Consolida avisos e notas críticas a serem observadas durante a execução."
+  },
+  "8": {
+    "titulo": "BOAS PRÁTICAS:",
+    "descricao": "Lista recomendações de boas práticas de comissionamento e segurança operacional."
+  },
+  "9": {
+    "titulo": "SEGURANÇA:",
+    "descricao": "Reforça requisitos normativos e procedimentos de segurança aplicáveis."
+  },
+  "10": {
+    "titulo": "CONCLUSÃO:",
+    "descricao": "Resume resultados, pendências e confirmações de conformidade."
+  },
+  "11": {
+    "titulo": "QUESTIONAMENTOS E DÚVIDAS:",
+    "descricao": "Texto institucional imutável, padronizado corporativamente."
+  },
+  "12": {
+    "titulo": "BIBLIOGRAFIA:",
+    "descricao": "Lista de documentos e normas consultadas para elaboração no modo completo.",
+    "itens": []
+  }
+  ,
+  "ANEXOS": {
+    "titulo": "ANEXOS:",
+    "descricao": "Lista de anexos relacionados aos testes executados. O número de anexos deve ser igual ao número de testes (X), sendo um anexo por teste.",
+    "item_modelo": {
+      "id": "ANEXO-01",
+      "titulo": "Título do Anexo",
+      "revisao": "Rev. A",
+      "data": "DD-MM-YYYY",
+      "fonte": "Origem do documento (fabricante, norma, estudo)",
+      "resumo": "Resumo do conteúdo do anexo em 3–5 linhas.",
+      "impacto": "Descrição breve (1–2 linhas) do impacto deste anexo nos testes."
+    },
+    "replicar_itens_ate": "{X}"
+  }
+}
